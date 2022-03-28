@@ -1,1 +1,1 @@
-# bpmn2faas-aws-plugin-python
+# bpmn2faas_aws_plugin_python

@@ -1,0 +1,12 @@
+def to_cloudevents_schema(event):
+    table_name = event['eventSourceARN'].split(':')[-1]
+    return {'id':               event['eventID'],
+            'source':           event['eventSource']+'.'+event['awsRegion']+'.'+table_name,
+            'specversion':      '1.0',
+            'type':             'com.amazonaws.sqs.'+event['eventName'],
+            'datacontenttype':  'dict',
+            'time':             event['Sns']['Timestamp'],
+            'message_body':     event['Sns']['Message'],
+            'message_id':       event['Sns']['MessageId'],
+            'topic':            topic,
+            'data':             event}

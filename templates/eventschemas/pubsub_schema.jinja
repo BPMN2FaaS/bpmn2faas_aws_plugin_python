@@ -1,0 +1,14 @@
+def to_cloudevents_schema(event):
+    splits = event['TopicArn'].split(':')
+    region = splits[3]
+    topic = splits[-1]
+    return {'id':               event['Sns']['MessageId'],
+            'source':           event['EventSource']+'.'+region+'.'+topic,
+            'specversion':      '1.0',
+            'type':             'com.amazonaws.sqs.NewMessage',
+            'datacontenttype':  'dict',
+            'time':             event['Sns']['Timestamp'],
+            'message_body':     event['Sns']['Message'],
+            'message_id':       event['Sns']['MessageId'],
+            'topic':            topic,
+            'data':             event}

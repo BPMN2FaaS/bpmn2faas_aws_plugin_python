@@ -43,7 +43,6 @@ class Plugin:
             for module in faas_function.modules:
                 source = os.path.join(business_code_path, module)
                 destination = os.path.join(function_path, module)
-                print(source)
                 shutil.copy2(source, destination)
 
             requirements_path = os.path.join(business_code_path, faas_function.name, 'requirements.txt')

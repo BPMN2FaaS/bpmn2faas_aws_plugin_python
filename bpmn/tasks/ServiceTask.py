@@ -39,4 +39,4 @@ class ServiceTask(Element):
                 'is_loop': self.is_loop}
         if self.is_loop:
             data['loop_condition'] = self.loop_condition
-        return template.render(data=data)
+        return template.render(data=data, op=self)

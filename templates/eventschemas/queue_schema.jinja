@@ -1,0 +1,11 @@
+def to_cloudevents_schema(event):
+    queue_name = event['eventSourceARN'].split(':')[-1]
+    return {'id':               event['messageId'],
+            'source':           event['eventSource']+'.'+event['awsRegion']+'.'+queue_name,
+            'specversion':      '1.0',
+            'type':             'com.amazonaws.sqs.NewMessage',
+            'datacontenttype':  'dict',
+            'time':             event['attributes']['SentTimestamp'],
+            'message_body':     event['body'],
+            'queue_name':       queue_name,
+            'data':             event}

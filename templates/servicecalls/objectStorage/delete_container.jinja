@@ -1,0 +1,4 @@
+{% if data.is_loop %}event['{{ data.task_name }}'] = []
+{% include 'indentation.jinja' %}{% include 'loop.jinja' %}
+{% include 'indentation.jinja' %}    event['{{ data.task_name }}'].append(s3_client.delete_bucket(Bucket={{ data.args[0] }}))
+{% else %}event['{{ data.task_name }}'] = s3_client.delete_bucket(Bucket={{ data.args[0] }}){% endif %}

@@ -1,0 +1,5 @@
+{% if data.is_loop %}event['{{ data.task_name }}'] = []
+{% include 'indentation.jinja' %}{% include 'loop.jinja' %}
+{% include 'indentation.jinja' %}    event['{{ data.task_name }}'].append(sns_client.create_topic(Name={{ data.args[0] }}, Message={{ data.args[1] }}))
+{% else %}event['{{ data.task_name }}'] = sns_client.create_topic(Name={{ data.args[0] }}{{ " if "+data.args[0]+".endswith('.fifo') else "+data.args[0]+" + '.fifo'" if not data.args[0].endswith(".fifo'") }},
+{% include 'indentation.jinja' %}                                                    Attributes={'FifoTopic': 'true'{{ " if "+data.args[1]+" else 'false'" if data.args[1] != 'True'}}}){% endif %}

@@ -1,1 +1,4 @@
-{% include 'loop.jinja' %}event['{{ data.task_name }}'] = sqs_client.create_queue(QueueName={{ data.args[0] }})
+{% if data.is_loop %}event['{{ data.task_name }}'] = []
+{% include 'indentation.jinja' %}{% include 'loop.jinja' %}
+{% include 'indentation.jinja' %}    event['{{ data.task_name }}'].append(sqs_client.create_queue(QueueName={{ data.args[0] }}))
+{% else %}event['{{ data.task_name }}'] = sqs_client.create_queue(QueueName={{ data.args[0] }}){% endif %}

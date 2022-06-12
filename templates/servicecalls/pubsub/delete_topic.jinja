@@ -1,0 +1,4 @@
+{% if data.is_loop %}event['{{ data.task_name }}'] = []
+{% include 'indentation.jinja' %}{% include 'loop.jinja' %}
+{% include 'indentation.jinja' %}    event['{{ data.task_name }}'].append(sns_client.delete_topic(TopicArn={{ data.arn }}))
+{% else %}event['{{ data.task_name }}'] = sns_client.delete_topic(TopicArn={{ data.arn }}){% endif %}

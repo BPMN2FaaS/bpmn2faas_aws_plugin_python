@@ -1,0 +1,6 @@
+{% if data.is_loop %}event['{{ data.task_name }}'] = []
+{% include 'indentation.jinja' %}{% include 'loop.jinja' %}
+{% include 'indentation.jinja' %}    queue_url = sqs_client.get_queue_url(QueueName={{ data.args[0] }}{{ " if "+data.args[0]+".endswith('.fifo') else "+data.args[0]+" + '.fifo'" if not data.args[0].endswith(".fifo'") }})
+{% include 'indentation.jinja' %}    event['{{ data.task_name }}'].append(sqs_client.receive_message(QueueUrl=queue_url['QueueUrl']))
+{% else %}queue_url = sqs_client.get_queue_url(QueueName={{ data.args[0] }}{{ " if "+data.args[0]+".endswith('.fifo') else "+data.args[0]+" + '.fifo'" if not data.args[0].endswith(".fifo'") }})
+{% include 'indentation.jinja' %}event['{{ data.task_name }}'] = sqs_client.receive_message(QueueUrl=queue_url['QueueUrl']){% endif %}

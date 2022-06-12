@@ -32,7 +32,7 @@ class Plugin:
         Path(project_path).mkdir(parents=True, exist_ok=True)
 
         for lane in lanes:
-            faas_function = FaaSFunction(lane, process)
+            faas_function = FaaSFunction(lane, process, endpoints)
 
             function_path = os.path.join(project_path, faas_function.name)
             Path(function_path).mkdir(parents=True, exist_ok=True)

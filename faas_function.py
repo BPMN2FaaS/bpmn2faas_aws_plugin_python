@@ -15,7 +15,7 @@ class FaaSFunction:
     ns = {'bpmn2': 'http://www.omg.org/spec/BPMN/20100524/MODEL',
           'bpmn2faas': 'http://bpmn2faas'}
 
-    def __init__(self, lane: et.Element, process: et.Element):
+    def __init__(self, lane: et.Element, process: et.Element, endpoints: dict):
         self.lane: et.Element = lane
         self.name: str = lane.get('name', default=lane.get('id'))
 
@@ -35,6 +35,7 @@ class FaaSFunction:
                 self.operations.append(task)
             elif element.tag == '{' + self.ns['bpmn2'] + '}serviceTask':
                 st = ServiceTask(element, process)
+                st.arn = endpoints.get(st.id, '')
                 self.operations.append(st)
                 if st.service not in self.services:
                     self.services.append(st.service)

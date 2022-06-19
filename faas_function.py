@@ -40,10 +40,9 @@ class FaaSFunction:
                 if st.service not in self.services:
                     self.services.append(st.service)
             elif element.tag == '{' + self.ns['bpmn2'] + '}exclusiveGateway':
-                gateway = Gateway(element, process)
+                gateway = Gateway(element, process, endpoints)
                 if gateway.is_splitting:
                     self.operations.append(gateway)
-
             elif element.tag == '{' + self.ns['bpmn2'] + '}endEvent':
                 self.operations.append(EndEvent(element, process))
 

@@ -8,11 +8,12 @@ from ..endevents.EndEvent import EndEvent
 
 
 class Gateway(Element):
-    def __init__(self, element: et.Element, process: et.Element):
+    def __init__(self, element: et.Element, process: et.Element, endpoints: dict):
         super(Gateway, self).__init__(element, process)
 
         namespace = '{' + self.ns['bpmn2faas'] + '}'
 
+        self.endpoints: dict = endpoints
         self.is_splitting: bool = False
         if len(self.incoming) == 1 and len(self.outgoing) > 1:
             self.is_splitting = True
@@ -58,10 +59,11 @@ class Gateway(Element):
                     element = Task(element, process)
                 elif element.tag == '{' + self.ns['bpmn2'] + '}serviceTask':
                     element = ServiceTask(element, process)
+                    element.arn = self.endpoints.get(element.id, '')
                 elif element.tag == '{' + self.ns['bpmn2'] + '}endEvent':
                     element = EndEvent(element, process)
                 elif element.tag == '{' + self.ns['bpmn2'] + '}exclusiveGateway':
-                    element = Gateway(element, process)
+                    element = Gateway(element, process, self.endpoints)
 
                 if type(element) is Task or type(element) is ServiceTask or type(element) is EndEvent:
                     branch.append(element)

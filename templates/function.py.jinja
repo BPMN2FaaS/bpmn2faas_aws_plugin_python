@@ -1,6 +1,6 @@
 import boto3
 
-{% for module in data.modules %}import .{{ module[:-3] }}
+{% for module in data.modules %}import {{ module[:-3] }}
 {% endfor %}
 {% for client in data.clients %}{{ client }}_client = boto3.client('{{ client }}')
 {% endfor %}
